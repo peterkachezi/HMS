@@ -48,11 +48,11 @@ namespace HMS.Areas.Reception.Controllers
 
                 if (results != null)
                 {
-                    return Json(new { success = true, responseText = "Appointment has been successfully created" });
+                    return Json(new { success = true, responseText = "Appointment has been successfully booked" });
                 }
                 else
                 {
-                    return Json(new { success = false, responseText = "Appointment has been  not been saved" });
+                    return Json(new { success = false, responseText = "Appointment has not been booked" });
                 }
             }
             catch (Exception ex)

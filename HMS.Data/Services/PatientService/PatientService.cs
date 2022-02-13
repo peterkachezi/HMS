@@ -200,6 +200,56 @@ namespace HMS.Data.Services.PatientService
             }
         }
 
+        public async Task<PatientDTO> GetByIdNumber(string IdNumber)
+        {
+            try
+            {
+                var patient = (from p in context.Patients
+
+                               join u in context.AppUser on p.CreatedBy equals u.Id
+
+                               where p.IdNumber == IdNumber
+
+                               select new PatientDTO
+                               {
+                                   Id = p.Id,
+
+                                   RegistrationCode = p.RegistrationCode,
+
+                                   FirstName = p.FirstName,
+
+                                   LastName = p.LastName,
+
+                                   IdNumber = p.IdNumber,
+
+                                   PhoneNumber = p.PhoneNumber,
+
+                                   NHIFNumber = p.NHIFNumber,
+
+                                   Gender = p.Gender,
+
+                                   CreateDate = p.CreateDate,
+
+                                   CreatedBy = p.CreatedBy,
+
+                                   CreatedByName = u.FirstName + " " + u.LastName,
+
+                                   Town = p.Town,
+
+                                   CountyId = p.CountyId,
+
+                               }).FirstOrDefaultAsync();
+
+                return await patient;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return null;
+            }
+        }
+
         public async Task<PatientDTO> Update(PatientDTO patientDTO)
         {
             try

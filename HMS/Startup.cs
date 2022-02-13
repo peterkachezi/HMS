@@ -1,4 +1,5 @@
 using HMS.Data.Models;
+using HMS.Data.Services.AppointmentModule;
 using HMS.Data.Services.CountyModule;
 using HMS.Data.Services.DepartmentModule;
 using HMS.Data.Services.DiseaseModule;
@@ -64,6 +65,8 @@ namespace HMS
             services.AddTransient<IHospitalService, HospitalService>();
 
             services.AddTransient<IMessagingService, MessagingService>();
+
+            services.AddTransient<IAppointmentService, AppointmentService>();
 
         }
 

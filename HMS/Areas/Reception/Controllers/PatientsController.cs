@@ -177,6 +177,58 @@ namespace HMS.Areas.Reception.Controllers
                 return null;
             }
 
+        }     
+        
+        
+        public async Task<IActionResult> GetByIdNumber(string IdNumber)
+        {
+            try
+            {
+                var data = await patientService.GetByIdNumber(IdNumber);
+
+
+                if (data != null)
+                {
+                    PatientDTO file = new PatientDTO
+                    {
+                        Id = data.Id,
+
+                        RegistrationCode = data.RegistrationCode,
+
+                        FirstName = data.FirstName,
+
+                        LastName = data.LastName,
+
+                        IdNumber = data.IdNumber,
+
+                        PhoneNumber = data.PhoneNumber,
+
+                        NHIFNumber = data.NHIFNumber,
+
+                        Gender = data.Gender,
+
+                        CreateDate = data.CreateDate,
+
+                        CreatedBy = data.CreatedBy,
+
+                        Town = data.Town,
+
+                        CountyId = data.CountyId,
+
+                    };
+
+                    return Json(new { data = file });
+                }
+
+                return Json(new { data = false });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return null;
+            }
+
         }
         public async Task<IActionResult> Delete(Guid Id)
         {

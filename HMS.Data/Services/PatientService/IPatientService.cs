@@ -12,5 +12,6 @@ namespace HMS.Data.Services.PatientService
         Task<List<PatientDTO>> GetAll();
         Task<bool> Delete(Guid Id);
         Task<PatientDTO> GetById(Guid Id);
+        Task<PatientDTO> GetByIdNumber(string IdNumber);
     }
 }
