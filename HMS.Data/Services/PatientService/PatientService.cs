@@ -12,7 +12,7 @@ namespace HMS.Data.Services.PatientService
 {
     public class PatientService : IPatientService
     {
-        private  ApplicationDbContext context;
+        private ApplicationDbContext context;
 
         public PatientService(ApplicationDbContext context)
         {
@@ -24,13 +24,15 @@ namespace HMS.Data.Services.PatientService
             {
                 string code = PatientNumber.GenerateUniqueNumber();
 
-                patientDTO.VisitCode = "P" + "" + code;
+                patientDTO.RegistrationCode = "P" + "" + code;
+
+                patientDTO.Id = Guid.NewGuid();
 
                 var s = new Patient
                 {
-                    Id = Guid.NewGuid(),
+                    Id = patientDTO.Id,
 
-                    VisitCode = patientDTO.VisitCode,
+                    RegistrationCode = patientDTO.RegistrationCode,
 
                     FirstName = patientDTO.FirstName,
 
@@ -39,6 +41,8 @@ namespace HMS.Data.Services.PatientService
                     IdNumber = patientDTO.IdNumber,
 
                     PhoneNumber = patientDTO.PhoneNumber,
+
+                    NHIFNumber = patientDTO.NHIFNumber,
 
                     Gender = patientDTO.Gender,
 
@@ -107,7 +111,7 @@ namespace HMS.Data.Services.PatientService
                                 {
                                     Id = p.Id,
 
-                                    VisitCode = p.VisitCode,
+                                    RegistrationCode = p.RegistrationCode,
 
                                     FirstName = p.FirstName,
 
@@ -116,6 +120,8 @@ namespace HMS.Data.Services.PatientService
                                     IdNumber = p.IdNumber,
 
                                     PhoneNumber = p.PhoneNumber,
+
+                                    NHIFNumber = p.NHIFNumber,
 
                                     Gender = p.Gender,
 
@@ -150,37 +156,39 @@ namespace HMS.Data.Services.PatientService
             {
                 var patient = (from p in context.Patients
 
-                                join u in context.AppUser on p.CreatedBy equals u.Id
+                               join u in context.AppUser on p.CreatedBy equals u.Id
 
-                                where p.Id==Id
+                               where p.Id == Id
 
-                                select new PatientDTO
-                                {
-                                    Id = p.Id,
+                               select new PatientDTO
+                               {
+                                   Id = p.Id,
 
-                                    VisitCode = p.VisitCode,
+                                   RegistrationCode = p.RegistrationCode,
 
-                                    FirstName = p.FirstName,
+                                   FirstName = p.FirstName,
 
-                                    LastName = p.LastName,
+                                   LastName = p.LastName,
 
-                                    IdNumber = p.IdNumber,
+                                   IdNumber = p.IdNumber,
 
-                                    PhoneNumber = p.PhoneNumber,
+                                   PhoneNumber = p.PhoneNumber,
 
-                                    Gender = p.Gender,
+                                   NHIFNumber = p.NHIFNumber,
 
-                                    CreateDate = p.CreateDate,
+                                   Gender = p.Gender,
 
-                                    CreatedBy = p.CreatedBy,
+                                   CreateDate = p.CreateDate,
 
-                                    CreatedByName = u.FirstName + " " + u.LastName,
+                                   CreatedBy = p.CreatedBy,
 
-                                    Town = p.Town,
+                                   CreatedByName = u.FirstName + " " + u.LastName,
 
-                                    CountyId = p.CountyId,
+                                   Town = p.Town,
 
-                                }).FirstOrDefaultAsync();
+                                   CountyId = p.CountyId,
+
+                               }).FirstOrDefaultAsync();
 
                 return await patient;
             }
@@ -208,6 +216,8 @@ namespace HMS.Data.Services.PatientService
 
                         s.PhoneNumber = patientDTO.PhoneNumber;
 
+                        s.NHIFNumber = patientDTO.NHIFNumber;
+
                         s.Gender = patientDTO.Gender;
 
                         s.Town = patientDTO.Town;
@@ -218,7 +228,7 @@ namespace HMS.Data.Services.PatientService
 
                     transaction.Commit();
 
-                    await context.SaveChangesAsync();                                       
+                    await context.SaveChangesAsync();
                 }
 
                 return patientDTO;

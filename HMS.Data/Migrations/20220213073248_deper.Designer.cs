@@ -4,14 +4,16 @@ using HMS.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220213073248_deper")]
+    partial class deper
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,24 +329,16 @@ namespace HMS.Data.Migrations
                         .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
-                    b.Property<byte>("DoctorStatus")
-                        .HasColumnType("tinyint");
-
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte>("RegistrationStatus")
-                        .HasColumnType("tinyint");
-
-                    b.Property<byte>("TriageStatus")
-                        .HasColumnType("tinyint");
 
                     b.Property<DateTime>("VisitDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<byte>("VisitStatus")
+                        .HasColumnType("tinyint");
 
-                    b.HasIndex("PatientId");
+                    b.HasKey("Id");
 
                     b.ToTable("HospitalVisits");
                 });
@@ -435,9 +429,6 @@ namespace HMS.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NHIFNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -762,15 +753,6 @@ namespace HMS.Data.Migrations
                         .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue("AppUser");
-                });
-
-            modelBuilder.Entity("HMS.Data.Models.HospitalVisit", b =>
-                {
-                    b.HasOne("HMS.Data.Models.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

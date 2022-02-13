@@ -20,7 +20,7 @@ namespace HMS.Data.Models
         public virtual DbSet<MedicalHistory>  MedicalHistories { get; set; }
         public virtual DbSet<Triage>  Triages { get; set; }
         public virtual DbSet<County>   Counties { get; set; }
-        public virtual DbSet<HospitalVisit> HospitalVisits { get; set; }
+        public virtual DbSet<Appointment>  Appointments { get; set; }
         public virtual DbSet<Service> Services { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -3,8 +3,9 @@ using HMS.Data.Services.CountyModule;
 using HMS.Data.Services.DepartmentModule;
 using HMS.Data.Services.DiseaseModule;
 using HMS.Data.Services.HospitalServiceModule;
-using HMS.Data.Services.HospitalVisitModule;
+
 using HMS.Data.Services.PatientService;
+using HMS.Data.Services.SMSModule;
 using HMS.Extensions;
 using HMS.Seeding;
 using Microsoft.AspNetCore.Builder;
@@ -55,13 +56,14 @@ namespace HMS
 
             services.AddTransient<ICountyService, CountyService>();
 
-            services.AddTransient<IHospitalVisitService, HospitalVisitService>();
 
             services.AddTransient<IDiseaseService, DiseaseService>();
 
             services.AddTransient<IDepartmentService, DepartmentService>();
 
             services.AddTransient<IHospitalService, HospitalService>();
+
+            services.AddTransient<IMessagingService, MessagingService>();
 
         }
 

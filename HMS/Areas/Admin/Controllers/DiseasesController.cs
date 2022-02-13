@@ -1,7 +1,7 @@
 ﻿using HMS.Data.DTOs.DiseaseModule;
 using HMS.Data.Models;
 using HMS.Data.Services.DiseaseModule;
-using HMS.Data.Services.HospitalServiceModule;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;

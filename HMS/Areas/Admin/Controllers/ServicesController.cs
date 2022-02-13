@@ -1,4 +1,5 @@
-﻿using HMS.Data.DTOs.HospitalServiceModule;
+﻿
+using HMS.Data.DTOs.HospitalServiceModule;
 using HMS.Data.Models;
 using HMS.Data.Services.HospitalServiceModule;
 using Microsoft.AspNetCore.Identity;

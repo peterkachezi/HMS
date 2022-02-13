@@ -2,6 +2,7 @@
 using HMS.Data.Models;
 using HMS.Data.Services.CountyModule;
 using HMS.Data.Services.PatientService;
+using HMS.Data.Services.SMSModule;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,16 +20,20 @@ namespace HMS.Areas.Reception.Controllers
 
         private readonly ICountyService countyService;
 
+        private readonly IMessagingService  messagingService;
+
         private UserManager<AppUser> userManager;
-        public PatientsController(ICountyService countyService, UserManager<AppUser> userManager, IPatientService patientService)
+        public PatientsController(IMessagingService messagingService,ICountyService countyService, UserManager<AppUser> userManager, IPatientService patientService)
         {
             this.patientService = patientService;
 
             this.userManager = userManager;
 
             this.countyService = countyService;
+
+            this.messagingService = messagingService;
         }
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             try
             {
@@ -67,7 +72,7 @@ namespace HMS.Areas.Reception.Controllers
             {
                 var list = await patientService.GetAll();
 
-                bool exist = list.Any(cus => cus.IdNumber == patientDTO.IdNumber);
+                bool exist = list.Any(cus => cus.IdNumber == patientDTO.IdNumber || cus.NHIFNumber==patientDTO.NHIFNumber);
 
                 if (exist == true)
                 {
@@ -83,6 +88,7 @@ namespace HMS.Areas.Reception.Controllers
 
                 if (result != null)
                 {
+                    var sendSms = await messagingService.PatientInfo(patientDTO);
 
                     return Json(new { success = true, responseText = "Patient has been successfully registered" });
                 }
@@ -135,7 +141,7 @@ namespace HMS.Areas.Reception.Controllers
                     {
                         Id = data.Id,
 
-                        VisitCode = data.VisitCode,
+                        RegistrationCode = data.RegistrationCode,
 
                         FirstName = data.FirstName,
 
@@ -144,6 +150,8 @@ namespace HMS.Areas.Reception.Controllers
                         IdNumber = data.IdNumber,
 
                         PhoneNumber = data.PhoneNumber,
+
+                        NHIFNumber = data.NHIFNumber,
 
                         Gender = data.Gender,
 

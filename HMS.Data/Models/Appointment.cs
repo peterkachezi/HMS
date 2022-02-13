@@ -5,16 +5,17 @@ using System.Text;
 
 namespace HMS.Data.Models
 {
- public partial   class HospitalVisit
+ public partial   class Appointment
     {
         public Guid Id { get; set; }
-        public Guid PatientId { get; set; }
-        //public Guid? DepartmentId { get; set; }
-        //public Guid? ServiceId { get; set; }
-        public byte VisitStatus { get; set; }
+        public byte RegistrationStatus { get; set; }
+        public byte TriageStatus { get; set; }
+        public byte DoctorStatus { get; set; }
         public DateTime VisitDate { get; set; }
         [Required]
         [StringLength(128)]
         public string CreatedBy { get; set; }
+        public Guid PatientId { get; set; }
+        public virtual Patient Patient { get; set; }
     }
 }
