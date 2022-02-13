@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using POS.Data.Utils;
 
 namespace HMS.Data.Services.PatientService
 {
     public class PatientService : IPatientService
     {
-        private ApplicationDbContext context;
+        private  ApplicationDbContext context;
 
         public PatientService(ApplicationDbContext context)
         {
@@ -21,6 +22,10 @@ namespace HMS.Data.Services.PatientService
         {
             try
             {
+                string code = PatientNumber.GenerateUniqueNumber();
+
+                patientDTO.VisitCode = "P" + "" + code;
+
                 var s = new Patient
                 {
                     Id = Guid.NewGuid(),
@@ -40,6 +45,10 @@ namespace HMS.Data.Services.PatientService
                     CreateDate = DateTime.Now,
 
                     CreatedBy = patientDTO.CreatedBy,
+
+                    Town = patientDTO.Town,
+
+                    CountyId = patientDTO.CountyId,
 
                 };
 
@@ -92,6 +101,8 @@ namespace HMS.Data.Services.PatientService
 
                                 join u in context.AppUser on p.CreatedBy equals u.Id
 
+                                join c in context.Counties on p.CountyId equals c.Id
+
                                 select new PatientDTO
                                 {
                                     Id = p.Id,
@@ -111,6 +122,12 @@ namespace HMS.Data.Services.PatientService
                                     CreateDate = p.CreateDate,
 
                                     CreatedBy = p.CreatedBy,
+
+                                    Town = p.Town,
+
+                                    CountyId = p.CountyId,
+
+                                    countyName = c.Name,
 
                                     CreatedByName = u.FirstName + " " + u.LastName,
 
@@ -159,6 +176,10 @@ namespace HMS.Data.Services.PatientService
 
                                     CreatedByName = u.FirstName + " " + u.LastName,
 
+                                    Town = p.Town,
+
+                                    CountyId = p.CountyId,
+
                                 }).FirstOrDefaultAsync();
 
                 return await patient;
@@ -188,6 +209,10 @@ namespace HMS.Data.Services.PatientService
                         s.PhoneNumber = patientDTO.PhoneNumber;
 
                         s.Gender = patientDTO.Gender;
+
+                        s.Town = patientDTO.Town;
+
+                        s.CountyId = patientDTO.CountyId;
 
                     };
 

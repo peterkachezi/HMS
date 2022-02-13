@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HMS.Areas.Admin.Controllers
+namespace HMS.Areas.Reception.Controllers
 {
-    [Area("Admin")]
+    [Area("Reception")]
     public class DashboardController : Controller
     {
         public IActionResult Index()

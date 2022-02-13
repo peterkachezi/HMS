@@ -19,32 +19,33 @@ namespace HMS.Data.Models
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<MedicalHistory>  MedicalHistories { get; set; }
         public virtual DbSet<Triage>  Triages { get; set; }
+        public virtual DbSet<County>   Counties { get; set; }
+        public virtual DbSet<HospitalVisit> HospitalVisits { get; set; }
+        public virtual DbSet<Service> Services { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            //modelBuilder.Entity<HospitalVisit>(entity =>
+            //{
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
+            //    entity.HasKey(e => e.Id);
+            //    entity.Property(e => e.Id).HasDefaultValueSql("NEWID()");
 
-        //    //modelBuilder.Entity<HospitalVisit>(entity =>
-        //    //{
+            //});
 
-        //    //    entity.HasKey(e => e.Id);
-        //    //    entity.Property(e => e.Id).HasDefaultValueSql("NEWID()");
+            //modelBuilder.Entity<Commission>(entity =>
+            //{
+            //    entity.Property(e => e.CommissionAmount).HasColumnType("decimal(18,2)");
+            //    entity.HasKey(e => e.Id);
+            //    entity.Property(e => e.Id).HasDefaultValueSql("NEWID()");
 
-        //    //});
+            //});
 
-        //    //modelBuilder.Entity<Commission>(entity =>
-        //    //{
-        //    //    entity.Property(e => e.CommissionAmount).HasColumnType("decimal(18,2)");
-        //    //    entity.HasKey(e => e.Id);
-        //    //    entity.Property(e => e.Id).HasDefaultValueSql("NEWID()");
+            seedCounties(modelBuilder);
 
-        //    //});
-
-        //    seedCounties(modelBuilder);
-
-        //}
+        }
 
 
         public static void seedCounties(ModelBuilder modelBuilder)

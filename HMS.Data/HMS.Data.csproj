@@ -18,15 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\DiseaseModule\" />
     <Folder Include="DTOs\LabTesModule\" />
-    <Folder Include="DTOs\DepartmentModule\" />
-    <Folder Include="DTOs\CountyModule\" />
     <Folder Include="DTOs\TriageModule\" />
-    <Folder Include="Services\DiseaseModule\" />
     <Folder Include="Services\LabTesModule\" />
-    <Folder Include="Services\DepartmentModule\" />
-    <Folder Include="Services\CountyModule\" />
     <Folder Include="Services\TriageModule\" />
   </ItemGroup>
 

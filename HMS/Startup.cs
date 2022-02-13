@@ -1,5 +1,11 @@
 using HMS.Data.Models;
+using HMS.Data.Services.CountyModule;
+using HMS.Data.Services.DepartmentModule;
+using HMS.Data.Services.DiseaseModule;
+using HMS.Data.Services.HospitalServiceModule;
+using HMS.Data.Services.HospitalVisitModule;
 using HMS.Data.Services.PatientService;
+using HMS.Extensions;
 using HMS.Seeding;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,19 +35,34 @@ namespace HMS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().AddRazorRuntimeCompilation();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+
                 options.UseLazyLoadingProxies();
+
             }, ServiceLifetime.Transient);
 
             services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
+            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, ApplicationUserClaimsPrincipalFactory>();
+
             services.AddControllersWithViews();
 
             services.AddScoped<IPatientService, PatientService>();
-            
+
+            services.AddTransient<ICountyService, CountyService>();
+
+            services.AddTransient<IHospitalVisitService, HospitalVisitService>();
+
+            services.AddTransient<IDiseaseService, DiseaseService>();
+
+            services.AddTransient<IDepartmentService, DepartmentService>();
+
+            services.AddTransient<IHospitalService, HospitalService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,10 +97,16 @@ namespace HMS
 
             app.UseAuthorization();
 
-            SeedUsers.seed(userManager,roleManager);
+            SeedUsers.seed(userManager, roleManager);
 
             app.UseEndpoints(endpoints =>
             {
+
+
+                endpoints.MapControllerRoute(
+                name: "Reception",
+                pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+
 
                 endpoints.MapControllerRoute(
                 name: "default",

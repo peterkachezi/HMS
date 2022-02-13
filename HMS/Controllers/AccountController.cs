@@ -100,9 +100,9 @@ namespace HMS.Controllers
                         }
 
 
-                        if (getUserRole == "Agent")
+                        if (getUserRole == "Receptionist")
                         {
-                            return RedirectToAction("Index", "Dashboard", new { area = "Agent" });
+                            return RedirectToAction("Index", "Dashboard", new { area = "Reception" });
                         }
 
 
